@@ -62,7 +62,7 @@ public class ConnectivityPlugin implements MethodCallHandler, StreamHandler {
     receiver = null;
   }
 
-  public void cancel() {
+  public static void cancel() {
     registrar.context().unregisterReceiver(receiver);
     receiver = null;
   }
