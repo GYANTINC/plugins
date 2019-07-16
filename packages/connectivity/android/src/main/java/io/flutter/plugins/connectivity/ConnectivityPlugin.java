@@ -23,9 +23,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** ConnectivityPlugin */
 public class ConnectivityPlugin implements MethodCallHandler, StreamHandler {
-  private final Registrar registrar;
+  private static Registrar registrar;
   private final ConnectivityManager manager;
-  private BroadcastReceiver receiver;
+  private static BroadcastReceiver receiver;
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
@@ -39,7 +39,7 @@ public class ConnectivityPlugin implements MethodCallHandler, StreamHandler {
   }
 
   private ConnectivityPlugin(Registrar registrar) {
-    this.registrar = registrar;
+    registrar = registrar;
     this.manager =
         (ConnectivityManager)
             registrar
@@ -58,6 +58,11 @@ public class ConnectivityPlugin implements MethodCallHandler, StreamHandler {
 
   @Override
   public void onCancel(Object arguments) {
+    registrar.context().unregisterReceiver(receiver);
+    receiver = null;
+  }
+
+  public void cancel() {
     registrar.context().unregisterReceiver(receiver);
     receiver = null;
   }
