@@ -39,7 +39,7 @@ public class ConnectivityPlugin implements MethodCallHandler, StreamHandler {
   }
 
   private ConnectivityPlugin(Registrar registrar) {
-    registrar = registrar;
+    ConnectivityPlugin.registrar = registrar;
     this.manager =
         (ConnectivityManager)
             registrar
