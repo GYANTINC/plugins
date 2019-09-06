@@ -5,8 +5,9 @@
 package io.flutter.plugins.localauth;
 
 import android.app.Activity;
-import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
-import androidx.fragment.app.FragmentActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
