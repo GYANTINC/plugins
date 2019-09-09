@@ -34,7 +34,7 @@ import io.flutter.plugin.common.MethodCall;
  * method calls.
  */
 class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallback
-        implements Application.ActivityLifecycleCallbacks {
+    implements Application.ActivityLifecycleCallbacks {
 
   /** How long will the fp dialog be delayed to dismiss. */
   private static final long DISMISS_AFTER_MS = 300;
@@ -84,7 +84,7 @@ class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallba
   private CancellationSignal cancellationSignal;
 
   AuthenticationHelper(
-          Activity activity, MethodCall call, AuthCompletionHandler completionHandler) {
+      Activity activity, MethodCall call, AuthCompletionHandler completionHandler) {
     this.activity = activity;
     this.completionHandler = completionHandler;
     this.call = call;
@@ -101,8 +101,8 @@ class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallba
           showGoToSettingsDialog();
         } else if (!keyguardManager.isKeyguardSecure()) {
           completionHandler.onError(
-                  "PasscodeNotSet",
-                  "Phone not secured by PIN, pattern or password, or SIM is currently locked.");
+              "PasscodeNotSet",
+              "Phone not secured by PIN, pattern or password, or SIM is currently locked.");
         } else {
           completionHandler.onError("NotEnrolled", "No fingerprint enrolled on this device.");
         }
@@ -180,21 +180,21 @@ class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallba
   @Override
   public void onAuthenticationFailed() {
     updateFingerprintDialog(
-            DialogState.FAILURE, (String) call.argument("fingerprintNotRecognized"));
+        DialogState.FAILURE, (String) call.argument("fingerprintNotRecognized"));
   }
 
   @Override
   public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
     updateFingerprintDialog(DialogState.SUCCESS, (String) call.argument("fingerprintSuccess"));
     new Handler(Looper.myLooper())
-            .postDelayed(
-                    new Runnable() {
-                      @Override
-                      public void run() {
-                        stop(true);
-                      }
-                    },
-                    DISMISS_AFTER_MS);
+        .postDelayed(
+            new Runnable() {
+              @Override
+              public void run() {
+                stop(true);
+              }
+            },
+            DISMISS_AFTER_MS);
   }
 
   private void updateFingerprintDialog(DialogState state, String message) {
@@ -228,18 +228,18 @@ class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallba
     status.setText((String) call.argument("fingerprintHint"));
     Context context = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
     OnClickListener cancelHandler =
-            new OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                stop(false);
-              }
-            };
+        new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            stop(false);
+          }
+        };
     fingerprintDialog =
-            new AlertDialog.Builder(context)
-                    .setView(view)
-                    .setNegativeButton((String) call.argument(CANCEL_BUTTON), cancelHandler)
-                    .setCancelable(false)
-                    .show();
+        new AlertDialog.Builder(context)
+            .setView(view)
+            .setNegativeButton((String) call.argument(CANCEL_BUTTON), cancelHandler)
+            .setCancelable(false)
+            .show();
   }
 
   // Suppress inflateParams lint because dialogs do not need to attach to a parent view.
@@ -252,26 +252,26 @@ class AuthenticationHelper extends FingerprintManagerCompat.AuthenticationCallba
     description.setText((String) call.argument("goToSettingDescription"));
     Context context = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
     OnClickListener goToSettingHandler =
-            new OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                stop(false);
-                activity.startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
-              }
-            };
+        new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            stop(false);
+            activity.startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
+          }
+        };
     OnClickListener cancelHandler =
-            new OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                stop(false);
-              }
-            };
+        new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            stop(false);
+          }
+        };
     new AlertDialog.Builder(context)
-            .setView(view)
-            .setPositiveButton((String) call.argument("goToSetting"), goToSettingHandler)
-            .setNegativeButton((String) call.argument(CANCEL_BUTTON), cancelHandler)
-            .setCancelable(false)
-            .show();
+        .setView(view)
+        .setPositiveButton((String) call.argument("goToSetting"), goToSettingHandler)
+        .setNegativeButton((String) call.argument(CANCEL_BUTTON), cancelHandler)
+        .setCancelable(false)
+        .show();
   }
 
   // Unused methods for activity lifecycle.
